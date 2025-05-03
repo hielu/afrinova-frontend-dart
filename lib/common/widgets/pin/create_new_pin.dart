@@ -7,7 +7,7 @@ import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:afrinova/utils/numkey/numeric_keypad.dart';
 import 'package:afrinova/utils/popups/loaders.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_button_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_button_style.dart';
 import 'package:afrinova/utils/tokens/auth_storage.dart';
 import 'package:afrinova/utils/constants/sizes.dart';
 // Reusable keypad widget
@@ -51,7 +51,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
       // 1. Ensure the user is authenticated.
       final token = await AuthStorage.getToken();
       if (token == null) {
-        Get.find<LulLoaders>().errorDialog(
+        Get.find<AfrinovaLoaders>().errorDialog(
           title: _languageController.getText('error'),
           message: _languageController.getText('no_user_signed_in'),
           onPressed: () => Get.offAll(() => LoginScreen()),
@@ -64,7 +64,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
       if (!_validatePin(pin)) return;
 
       // 3. Confirm with the user.
-      final shouldProceed = await LulLoaders.alertDialog(
+      final shouldProceed = await AfrinovaLoaders.alertDialog(
         title: _languageController.getText('confirm_pin'),
         message: _languageController.getText('confirm_pin_message'),
         confirmText: _languageController.getText('confirm'),
@@ -84,7 +84,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
         await AuthStorage.clearToken();
         _clearPinControllers();
 
-        Get.find<LulLoaders>().successDialog(
+        Get.find<AfrinovaLoaders>().successDialog(
           title: _languageController.getText('success'),
           message: _languageController.getText('pin_created_login'),
           onPressed: () => Get.offAll(() => LoginScreen()),
@@ -103,13 +103,13 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
           default:
             errorMessage = _languageController.getText('something_went_wrong');
         }
-        Get.find<LulLoaders>().errorDialog(
+        Get.find<AfrinovaLoaders>().errorDialog(
           title: _languageController.getText('error'),
           message: errorMessage,
         );
       }
     } catch (e) {
-      Get.find<LulLoaders>().errorDialog(
+      Get.find<AfrinovaLoaders>().errorDialog(
         title: _languageController.getText('error'),
         message: _languageController.getText('something_went_wrong'),
       );
@@ -122,14 +122,14 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
   /// Validates that the PIN is exactly 4 digits, numeric, and not overly simple.
   bool _validatePin(String pin) {
     if (pin.length != 4) {
-      Get.find<LulLoaders>().errorDialog(
+      Get.find<AfrinovaLoaders>().errorDialog(
         title: _languageController.getText('error'),
         message: _languageController.getText('enter_complete_pin'),
       );
       return false;
     }
     if (!RegExp(r'^[0-9]+$').hasMatch(pin)) {
-      Get.find<LulLoaders>().errorDialog(
+      Get.find<AfrinovaLoaders>().errorDialog(
         title: _languageController.getText('error'),
         message: _languageController.getText('pin_must_be_numbers'),
       );
@@ -149,7 +149,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
       '8888',
       '9999'
     ].contains(pin)) {
-      Get.find<LulLoaders>().errorDialog(
+      Get.find<AfrinovaLoaders>().errorDialog(
         title: _languageController.getText('error'),
         message: _languageController.getText('pin_too_simple'),
       );
@@ -262,7 +262,7 @@ class _CreatePinScreenState extends State<CreatePinScreen> {
                   horizontal: TSizes.defaultSpace,
                   vertical: TSizes.sm,
                 ),
-                child: Obx(() => LulButton(
+                child: Obx(() => AfrinovaButton(
                       onPressed: _handlePinSubmit,
                       text: _languageController.getText('submit_pin'),
                       isLoading: isLoading.value,

@@ -7,7 +7,7 @@ import 'package:afrinova/utils/language/language_controller.dart';
 import '../constants/colors.dart';
 import '../helpers/helper_functions.dart';
 
-class LulLoaders {
+class AfrinovaLoaders {
   final LanguageController _languageController = Get.put(LanguageController());
 
   static hideSnackBar() =>
@@ -45,7 +45,7 @@ class LulLoaders {
     );
   }
 
-  static lulcustomToast({required message}) {
+  static AfrinovacustomToast({required message}) {
     ScaffoldMessenger.of(Get.context!).showSnackBar(
       SnackBar(
         elevation: 0,
@@ -68,7 +68,7 @@ class LulLoaders {
     );
   }
 
-  static lulsuccessSnackBar({required title, message = '', duration = 3}) {
+  static AfrinovasuccessSnackBar({required title, message = '', duration = 3}) {
     final languageController = Get.find<LanguageController>();
     Get.snackbar(
       title,
@@ -84,7 +84,7 @@ class LulLoaders {
     );
   }
 
-  static lulwarningSnackBar({required title, message = ''}) {
+  static AfrinovawarningSnackBar({required title, message = ''}) {
     Get.snackbar(
       title,
       message,
@@ -99,7 +99,7 @@ class LulLoaders {
     );
   }
 
-  static lulerrorSnackBar({required title, message = ''}) {
+  static AfrinovaerrorSnackBar({required title, message = ''}) {
     Get.snackbar(
       title,
       message,
@@ -114,7 +114,7 @@ class LulLoaders {
     );
   }
 
-  static lulinfoSnackBar({required title, message = ''}) {
+  static AfrinovainfoSnackBar({required title, message = ''}) {
     Get.snackbar(
       title,
       message,
@@ -129,7 +129,7 @@ class LulLoaders {
     );
   }
 
-  static void lulerrorDialog({
+  static void AfrinovaerrorDialog({
     required String title,
     required String message,
     VoidCallback? onPressed,
@@ -163,7 +163,7 @@ class LulLoaders {
     );
   }
 
-  void lulCustomDialog({
+  void AfrinovaCustomDialog({
     required BuildContext context,
     required String title,
     required String message,
@@ -194,7 +194,7 @@ class LulLoaders {
     );
   }
 
-  void lulCustomBottomSheet({
+  void AfrinovaCustomBottomSheet({
     required BuildContext context,
     required String title,
     required String message,
@@ -220,7 +220,7 @@ class LulLoaders {
     );
   }
 
-  void lulCustomToast({
+  void AfrinovaCustomToast({
     required String message,
     required Color backgroundColor,
   }) {

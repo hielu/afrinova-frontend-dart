@@ -54,7 +54,7 @@ class _NetworkErrorScreenState extends State<NetworkErrorScreen> {
     final token = await AuthStorage.getToken();
     if (token != null) {
       // User is logged in, show PIN check then NavigationMenu
-      Get.off(() => TesfaCheckPinScreen(
+      Get.off(() => AfrinovaCheckPinScreen(
             maxAttempts: 3,
             onSuccess: () => Get.offAll(() => const NavigationMenu()),
           ));

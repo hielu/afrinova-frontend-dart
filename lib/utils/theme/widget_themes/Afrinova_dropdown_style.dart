@@ -3,7 +3,7 @@ import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/utils/constants/sizes.dart';
 import 'package:afrinova/utils/theme/widget_themes/text_field_theme.dart';
 
-class LulDropdown<T> extends StatelessWidget {
+class AfrinovaDropdown<T> extends StatelessWidget {
   final T? value;
   final List<DropdownMenuItem<T>> items;
   final ValueChanged<T?>? onChanged;
@@ -12,7 +12,7 @@ class LulDropdown<T> extends StatelessWidget {
   final TextStyle? hintStyle;
   final Widget? prefixIcon;
 
-  const LulDropdown({
+  const AfrinovaDropdown({
     super.key,
     required this.value,
     required this.items,

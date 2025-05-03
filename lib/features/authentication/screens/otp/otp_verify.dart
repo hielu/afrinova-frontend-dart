@@ -8,22 +8,23 @@ import 'package:afrinova/utils/popups/loaders.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:afrinova/services/otp_service.dart';
 
-import 'package:afrinova/utils/theme/widget_themes/lul_button_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_button_style.dart';
 import 'package:afrinova/utils/tokens/auth_storage.dart';
 
-class LulOtpVerifyScreen extends StatefulWidget {
+class AfrinovaOtpVerifyScreen extends StatefulWidget {
   final String? phoneNumber;
 
-  const LulOtpVerifyScreen({
+  const AfrinovaOtpVerifyScreen({
     super.key,
     this.phoneNumber,
   });
 
   @override
-  State<LulOtpVerifyScreen> createState() => _LulOtpVerifyScreenState();
+  State<AfrinovaOtpVerifyScreen> createState() =>
+      _AfrinovaOtpVerifyScreenState();
 }
 
-class _LulOtpVerifyScreenState extends State<LulOtpVerifyScreen> {
+class _AfrinovaOtpVerifyScreenState extends State<AfrinovaOtpVerifyScreen> {
   final LanguageController _languageController = Get.find<LanguageController>();
   bool invalidOtp = false;
   bool isLoading = false;
@@ -149,8 +150,8 @@ class _LulOtpVerifyScreenState extends State<LulOtpVerifyScreen> {
                   ),
                   const SizedBox(height: 32),
 
-                  // Verify Button using LulButton
-                  LulButton(
+                  // Verify Button using AfrinovaButton
+                  AfrinovaButton(
                     onPressed: _handleVerify,
                     text: _languageController.getText('verify'),
                     isLoading: isLoading,
@@ -169,7 +170,7 @@ class _LulOtpVerifyScreenState extends State<LulOtpVerifyScreen> {
                     ),
 
                   if (resendTime == 0)
-                    LulOutlineButton(
+                    AfrinovaOutlineButton(
                       onPressed: () {
                         setState(() {
                           resendTime = 120;
@@ -206,7 +207,7 @@ class _LulOtpVerifyScreenState extends State<LulOtpVerifyScreen> {
       await AuthStorage.saveRegistrationStage(response['registrationStatus']);
 
       stopTimer();
-      Get.find<LulLoaders>().successDialog(
+      Get.find<AfrinovaLoaders>().successDialog(
         title: _languageController.getText('success'),
         message: _languageController.getText('phone_verified'),
         onPressed: () => Get.to(() => const CreatePinScreen()),

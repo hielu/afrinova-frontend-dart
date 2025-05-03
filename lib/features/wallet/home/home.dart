@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:afrinova/common/widgets/custom_shapes/circular_container.dart';
 import 'package:afrinova/features/shop/controllers/product_controller.dart';
@@ -8,7 +7,6 @@ import 'package:afrinova/features/shop/screens/category_screen.dart';
 import 'package:afrinova/features/shop/screens/product_detail_screen.dart';
 import 'package:afrinova/features/shop/screens/search_results_screen.dart';
 import 'package:afrinova/features/shop/widgets/product_card.dart';
-import 'package:afrinova/features/shop/widgets/promo_banner.dart';
 import 'package:afrinova/features/shop/widgets/promo_carousel.dart';
 import 'package:afrinova/features/shop/widgets/promo_carousel_items.dart';
 import 'package:afrinova/features/shop/widgets/secondary_promo_banner.dart';
@@ -18,6 +16,7 @@ import 'package:afrinova/features/wallet/home/widgets/category_item.dart';
 import 'package:afrinova/features/wallet/home/widgets/custom_search_bar.dart';
 import 'package:afrinova/features/wallet/home/widgets/transparent_app_bar.dart';
 import 'package:afrinova/features/shop/widgets/filter_bottom_sheet.dart';
+import 'package:afrinova/features/merchant/merchant_home.dart';
 import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 
@@ -81,6 +80,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             title: 'Search Results',
           ));
     }
+  }
+
+  void _navigateToMerchantDashboard() {
+    Get.to(() => const MerchantHomeScreen(shopName: 'My Shop'));
   }
 
   @override
@@ -425,7 +428,85 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     ),
                   ),
 
-                  const SizedBox(height: 20),
+                  // Merchant Section
+                  const SizedBox(height: 24),
+
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: InkWell(
+                      onTap: _navigateToMerchantDashboard,
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              TColors.primary,
+                              TColors.primary.withOpacity(0.8),
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 1,
+                              blurRadius: 4,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(12),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.storefront,
+                                color: Colors.white,
+                                size: 32,
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: const [
+                                  Text(
+                                    'Become a Merchant',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    'Sell your products and manage your store',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios,
+                              color: Colors.white,
+                              size: 16,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 24),
                 ],
               ),
             ),

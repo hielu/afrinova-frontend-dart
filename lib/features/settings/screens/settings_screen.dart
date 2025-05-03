@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/features/wallet/home/widgets/transparent_app_bar.dart';

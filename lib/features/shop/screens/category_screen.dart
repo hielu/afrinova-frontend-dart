@@ -6,10 +6,8 @@ import 'package:afrinova/features/shop/models/product_model.dart';
 import 'package:afrinova/features/shop/models/shop_model.dart';
 import 'package:afrinova/features/shop/screens/product_detail_screen.dart';
 import 'package:afrinova/features/shop/widgets/product_card.dart';
-import 'package:afrinova/features/shop/widgets/promo_banner.dart';
 import 'package:afrinova/features/shop/widgets/promo_carousel.dart';
 import 'package:afrinova/features/shop/widgets/promo_carousel_items.dart';
-import 'package:afrinova/features/shop/widgets/secondary_promo_banner.dart';
 import 'package:afrinova/features/shop/widgets/section_title.dart';
 import 'package:afrinova/features/shop/widgets/shop_card.dart';
 

@@ -649,7 +649,7 @@ const Map<String, Map<String, List<String>>> citiesByState = {
       'Albany',
       'Johns Creek'
     ],
-    'Hawaii': ['Honolulu', 'Hilo', 'Kailua', 'Kapolei'],
+    'Hawaii': ['HonoAfrinovau', 'Hilo', 'Kailua', 'Kapolei'],
     'Idaho': ['Boise', 'Meridian', 'Nampa', 'Idaho Falls'],
     'Illinois': ['Chicago', 'Springfield', 'Aurora', 'Rockford'],
     'Indiana': ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend'],

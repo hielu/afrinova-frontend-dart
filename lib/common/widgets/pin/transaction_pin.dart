@@ -31,7 +31,7 @@ class _TransactionPinCheckScreenState extends State<TransactionPinCheckScreen>
     with SingleTickerProviderStateMixin {
   final PINController _pinController = Get.find<PINController>();
   final LanguageController _languageController = Get.find<LanguageController>();
-  final LulLoaders _loaders = Get.find<LulLoaders>();
+  final AfrinovaLoaders _loaders = Get.find<AfrinovaLoaders>();
 
   // Controllers for the four PIN digit fields.
   final List<TextEditingController> _pinDigitControllers =
@@ -47,7 +47,7 @@ class _TransactionPinCheckScreenState extends State<TransactionPinCheckScreen>
     super.initState();
 
     // Set the flag to disable currency refreshes
-    CurrencyController.isPinCheckActive = true;
+    // CurrencyController.isPinCheckActive = true;
     print('TransactionPinScreen: Showing PIN check dialog');
 
     // Initialize shake animation
@@ -69,7 +69,7 @@ class _TransactionPinCheckScreenState extends State<TransactionPinCheckScreen>
   @override
   void dispose() {
     // Clear the flag when PIN check is dismissed
-    CurrencyController.isPinCheckActive = false;
+    // CurrencyController.isPinCheckActive = false;
     print('TransactionPinScreen: PIN check dialog dismissed');
 
     for (final controller in _pinDigitControllers) {
@@ -144,7 +144,7 @@ class _TransactionPinCheckScreenState extends State<TransactionPinCheckScreen>
             'TransactionPinScreen: PIN is valid, preparing to call onPinVerified');
         _wrongAttempts = 0;
         // Clear the flag when PIN validation is successful
-        CurrencyController.isPinCheckActive = false;
+        ///CurrencyController.isPinCheckActive = false;
 
         // Store the verified PIN
         final String verifiedPin = pin;
@@ -245,7 +245,7 @@ class _TransactionPinCheckScreenState extends State<TransactionPinCheckScreen>
       // In case of an exception, dismiss the loader and show an error dialog.
       TFullScreenLoader.stopLoading();
       _clearPinInputs();
-      LulLoaders.lulerrorSnackBar(
+      AfrinovaLoaders.AfrinovaerrorSnackBar(
         title: _languageController.getText('error'),
         message: e.toString(),
       );

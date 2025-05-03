@@ -6,8 +6,8 @@ import 'package:afrinova/utils/constants/sizes.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_dropdown_style.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_textformfield.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_dropdown_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_textformfield.dart';
 import 'package:afrinova/utils/validators/validation.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 
@@ -69,7 +69,7 @@ class LSignupForm extends StatelessWidget {
               ///First Name
               Expanded(
                   child: Obx(
-                () => LulGeneralTextFormField(
+                () => AfrinovaGeneralTextFormField(
                   controller: _firstNameController,
                   hintText: _languageController.getText('firstname'),
                   prefixIcon: const Icon(Iconsax.user),
@@ -86,7 +86,7 @@ class LSignupForm extends StatelessWidget {
 
               ///Last Name
               Expanded(
-                  child: Obx(() => LulGeneralTextFormField(
+                  child: Obx(() => AfrinovaGeneralTextFormField(
                         controller: _lastNameController,
                         hintText: _languageController.getText('lastname'),
                         prefixIcon: const Icon(Iconsax.user),
@@ -103,7 +103,7 @@ class LSignupForm extends StatelessWidget {
 
             ///User Name
 
-            Obx(() => LulGeneralTextFormField(
+            Obx(() => AfrinovaGeneralTextFormField(
                   controller: _usernameController,
                   hintText: _languageController.getText('username'),
                   prefixIcon: const Icon(Iconsax.user_edit),
@@ -118,7 +118,7 @@ class LSignupForm extends StatelessWidget {
               height: TSizes.spaceBtwInputFields,
             ),
 
-            Obx(() => LulGeneralTextFormField(
+            Obx(() => AfrinovaGeneralTextFormField(
                   controller: _emailController,
                   hintText: _languageController.getText('emailid'),
                   prefixIcon: const Icon(Iconsax.direct),
@@ -131,7 +131,7 @@ class LSignupForm extends StatelessWidget {
             ),
 
             Obx(
-              () => LulPhoneTextFormField(
+              () => AfrinovaPhoneTextFormField(
                 languageController: _languageController,
                 hintText: _languageController.getText('phonehint'),
                 phoneController: _phoneController,
@@ -143,7 +143,7 @@ class LSignupForm extends StatelessWidget {
 
             ///WhatsApp Phone
             Obx(
-              () => LulPhoneTextFormField(
+              () => AfrinovaPhoneTextFormField(
                 languageController: _languageController,
                 hintText: _languageController.getText('whatsapp_phone'),
                 phoneController: _whatsappController,
@@ -153,7 +153,7 @@ class LSignupForm extends StatelessWidget {
             const SizedBox(height: TSizes.spaceBtwInputFields),
 
             ///Password
-            Obx(() => LulGeneralTextFormField(
+            Obx(() => AfrinovaGeneralTextFormField(
                   controller: _passwordController,
                   obscureText: !isPasswordVisible.value,
                   hintText: _languageController.getText('password'),
@@ -190,7 +190,7 @@ class LSignupForm extends StatelessWidget {
             // Country Dropdown
             _buildLabel(context, 'country'),
             const SizedBox(height: 8),
-            Obx(() => LulDropdown<String>(
+            Obx(() => AfrinovaDropdown<String>(
                   value: selectedCountry.value.isNotEmpty
                       ? selectedCountry.value
                       : null,
@@ -223,7 +223,7 @@ class LSignupForm extends StatelessWidget {
             // State/Province Dropdown
             _buildLabel(context, 'state'),
             const SizedBox(height: 8),
-            Obx(() => LulDropdown<String>(
+            Obx(() => AfrinovaDropdown<String>(
                   value: selectedState.value.isNotEmpty
                       ? selectedState.value
                       : null,
@@ -257,7 +257,7 @@ class LSignupForm extends StatelessWidget {
             // City Dropdown
             _buildLabel(context, 'city'),
             const SizedBox(height: 8),
-            Obx(() => LulDropdown<String>(
+            Obx(() => AfrinovaDropdown<String>(
                   value:
                       selectedCity.value.isNotEmpty ? selectedCity.value : null,
                   items: selectedState.value.isNotEmpty &&
@@ -309,7 +309,7 @@ class LSignupForm extends StatelessWidget {
                               );
 
                               if (response['status'] == 'success') {
-                                LulLoaders.successDialog(
+                                AfrinovaLoaders.successDialog(
                                   title: _languageController
                                       .getText('registration_success'),
                                   message:
@@ -317,7 +317,7 @@ class LSignupForm extends StatelessWidget {
                                 );
                                 // Handle successful registration (e.g., navigate to next screen)
                               } else {
-                                LulLoaders.errorDialog(
+                                AfrinovaLoaders.errorDialog(
                                   title: _languageController
                                       .getText('registration_failed'),
                                   message: _languageController

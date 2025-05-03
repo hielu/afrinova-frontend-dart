@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:afrinova/utils/constants/colors.dart';
 
-class LulDateField extends StatelessWidget {
+class AfrinovaDateField extends StatelessWidget {
   final TextEditingController controller;
   final String? initialValue;
   final String hintText;
@@ -11,7 +11,7 @@ class LulDateField extends StatelessWidget {
   final Function(DateTime) onDateSelected;
   final Widget? prefixIcon;
 
-  const LulDateField({
+  const AfrinovaDateField({
     super.key,
     required this.controller,
     this.initialValue,

@@ -17,7 +17,7 @@ Future<void> navigateWithPinCheck({
   print('NavigationUtil: Starting PIN check navigation');
 
   final result = await Get.to<bool>(
-    () => TesfaCheckPinScreen(
+    () => AfrinovaCheckPinScreen(
       maxAttempts: 3,
       onSuccess: () {},
     ),
@@ -45,7 +45,7 @@ Future<void> navigateToProtectedScreen(Widget screen,
 /// For scenarios where only PIN verification is required (e.g. resuming the active screen).
 Future<void> verifyPinAndReturn({String successMessage = ""}) async {
   await navigateWithPinCheck(
-    targetScreen: TesfaCheckPinScreen(maxAttempts: 3, onSuccess: () {}),
+    targetScreen: AfrinovaCheckPinScreen(maxAttempts: 3, onSuccess: () {}),
     shouldNavigateBack: true,
     successMessage: successMessage,
   );
@@ -53,10 +53,10 @@ Future<void> verifyPinAndReturn({String successMessage = ""}) async {
 
 Future<void> navigateToPinUpdate() async {
   final result = await Get.to<bool>(
-    () => TesfaCheckPinScreen(maxAttempts: 3, onSuccess: () {}),
+    () => AfrinovaCheckPinScreen(maxAttempts: 3, onSuccess: () {}),
   );
 
   if (result == true) {
-    await Get.to(() => const TesfaUpdatePinScreen());
+    await Get.to(() => const AfrinovaUpdatePinScreen());
   }
 }

@@ -6,18 +6,19 @@ import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:afrinova/features/wallet/contacts/models/contact_model.dart';
 import 'package:afrinova/utils/popups/loaders.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_button_style.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_textformfield.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_button_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_textformfield.dart';
 import 'package:afrinova/utils/validators/validation.dart';
 
-class LulAddContactScreen extends StatefulWidget {
-  const LulAddContactScreen({super.key});
+class AfrinovaAddContactScreen extends StatefulWidget {
+  const AfrinovaAddContactScreen({super.key});
 
   @override
-  State<LulAddContactScreen> createState() => _LulAddContactScreenState();
+  State<AfrinovaAddContactScreen> createState() =>
+      _AfrinovaAddContactScreenState();
 }
 
-class _LulAddContactScreenState extends State<LulAddContactScreen> {
+class _AfrinovaAddContactScreenState extends State<AfrinovaAddContactScreen> {
   final _formKey = GlobalKey<FormState>();
   final LanguageController _languageController = Get.find<LanguageController>();
   final TextEditingController _idController = TextEditingController();
@@ -40,7 +41,7 @@ class _LulAddContactScreenState extends State<LulAddContactScreen> {
       _resetContactInfo();
 
       // Show loader
-      LulLoaders.showLoadingDialog();
+      AfrinovaLoaders.showLoadingDialog();
 
       // Simulate API call delay
       await Future.delayed(const Duration(seconds: 1));
@@ -60,7 +61,7 @@ class _LulAddContactScreenState extends State<LulAddContactScreen> {
       Get.back(); // Dismisses the loader
 
       if (existingContact.id.isNotEmpty) {
-        LulLoaders.lulinfoSnackBar(
+        AfrinovaLoaders.AfrinovainfoSnackBar(
           title: _languageController.getText('contact_exists_snack'),
           message: _languageController.getText('contact_exists_message_snack'),
         );
@@ -83,7 +84,7 @@ class _LulAddContactScreenState extends State<LulAddContactScreen> {
           _foundContact = databaseContact;
           _showContactInfo = true;
         } else {
-          LulLoaders.lulerrorSnackBar(
+          AfrinovaLoaders.AfrinovaerrorSnackBar(
             title: _languageController.getText('not_found'),
             message: _languageController.getText('user_not_found_snack'),
           );
@@ -177,7 +178,7 @@ class _LulAddContactScreenState extends State<LulAddContactScreen> {
                               style: FormTextStyle.getLabelStyle(context),
                             )),
                         const SizedBox(height: 8),
-                        Obx(() => LulGeneralTextFormField(
+                        Obx(() => AfrinovaGeneralTextFormField(
                               controller: _idController,
                               focusNode: _idFocusNode,
                               hintText:
@@ -213,10 +214,10 @@ class _LulAddContactScreenState extends State<LulAddContactScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: SizedBox(
                     width: double.infinity,
-                    child: LulButton(
+                    child: AfrinovaButton(
                       onPressed: () {
                         _resetContactInfo();
-                        LulLoaders.lulsuccessSnackBar(
+                        AfrinovaLoaders.AfrinovasuccessSnackBar(
                           title: _languageController.getText('success'),
                           message: _languageController
                               .getText('contact_saved_message_snack'),

@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:afrinova/features/shop/models/category_model.dart';
 import 'package:afrinova/features/shop/screens/all_categories_screen.dart';
 import 'package:afrinova/features/shop/screens/category_subcategories_screen.dart';
-import 'package:afrinova/features/shop/screens/product_detail_screen.dart';
 import 'package:afrinova/features/shop/screens/search_results_screen.dart';
 import 'package:afrinova/features/shop/screens/subcategory_screen.dart';
 import 'package:afrinova/features/shop/widgets/category_card.dart';

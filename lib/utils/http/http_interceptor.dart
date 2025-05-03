@@ -55,7 +55,7 @@ class AuthInterceptor extends Interceptor {
     AuthStorage.clearAll(); // Clear stored tokens
 
     // Show error dialog and redirect to login
-    LulLoaders.lulerrorDialog(
+    AfrinovaLoaders.AfrinovaerrorDialog(
       title: 'Session Expired',
       message: 'Your session has expired. Please log in again.',
       onPressed: () {
@@ -69,7 +69,7 @@ class AuthInterceptor extends Interceptor {
     AuthStorage.clearAll(); // Clear stored tokens
 
     // Show error dialog and redirect to login
-    LulLoaders.lulerrorDialog(
+    AfrinovaLoaders.AfrinovaerrorDialog(
       title: 'Authentication Error',
       message: 'Your login session is invalid. Please log in again.',
       onPressed: () {
@@ -83,17 +83,17 @@ class AuthInterceptor extends Interceptor {
     AuthStorage.clearAll(); // Clear stored tokens
 
     // Show error dialog
-    LulLoaders.lulerrorDialog(
+    AfrinovaLoaders.AfrinovaerrorDialog(
       title: 'Account Locked',
       message:
-          'Your account has been locked or disabled. Please contact support at support@lulpay.com for assistance.',
+          'Your account has been locked or disabled. Please contact support at support@Afrinovapay.com for assistance.',
     );
   }
 
   // Handle generic authentication error
   void _handleAuthError(String message) {
     // Show error dialog
-    LulLoaders.lulerrorDialog(
+    AfrinovaLoaders.AfrinovaerrorDialog(
       title: 'Authentication Error',
       message: message,
     );

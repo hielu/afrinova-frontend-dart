@@ -34,7 +34,7 @@ class LoginForm extends StatelessWidget {
       case 'ERR_400':
         // Missing email or password
         print('Showing ERR_400 error dialog: Form Error');
-        LulLoaders.lulerrorDialog(
+        AfrinovaLoaders.AfrinovaerrorDialog(
           title: 'Form Error',
           message:
               'Email and password are required. Please fill in all fields.',
@@ -48,7 +48,7 @@ class LoginForm extends StatelessWidget {
           // Invalid credentials
           print(
               'Showing ERR_401 error dialog: Authentication Failed - Invalid credentials');
-          LulLoaders.lulerrorDialog(
+          AfrinovaLoaders.AfrinovaerrorDialog(
             title: 'Authentication Failed',
             message:
                 'The email or password you entered is incorrect. Please try again.',
@@ -57,7 +57,7 @@ class LoginForm extends StatelessWidget {
           // Token expired
           print('Showing ERR_401 error dialog: Session Expired');
           AuthStorage.clearAll(); // Clear stored tokens
-          LulLoaders.lulerrorDialog(
+          AfrinovaLoaders.AfrinovaerrorDialog(
             title: 'Session Expired',
             message: 'Your session has expired. Please log in again.',
             onPressed: () {
@@ -71,7 +71,7 @@ class LoginForm extends StatelessWidget {
           print(
               'Showing ERR_401 error dialog: Authentication Error - Invalid token');
           AuthStorage.clearAll(); // Clear stored tokens
-          LulLoaders.lulerrorDialog(
+          AfrinovaLoaders.AfrinovaerrorDialog(
             title: 'Authentication Error',
             message: 'Your login session is invalid. Please log in again.',
             onPressed: () {
@@ -82,7 +82,7 @@ class LoginForm extends StatelessWidget {
         } else {
           // Generic authentication error
           print('Showing ERR_401 error dialog: Authentication Error - Generic');
-          LulLoaders.lulerrorDialog(
+          AfrinovaLoaders.AfrinovaerrorDialog(
             title: 'Authentication Error',
             message: 'Invalid email or password. Please try again.',
           );
@@ -92,10 +92,10 @@ class LoginForm extends StatelessWidget {
       case 'ERR_403':
         // Account locked or disabled
         print('Showing ERR_403 error dialog: Account Locked');
-        LulLoaders.lulerrorDialog(
+        AfrinovaLoaders.AfrinovaerrorDialog(
           title: 'Account Locked',
           message:
-              'Your account has been locked or disabled. Please contact support at support@lulpay.com for assistance.',
+              'Your account has been locked or disabled. Please contact support at support@Afrinovapay.com for assistance.',
         );
         break;
 
@@ -103,7 +103,7 @@ class LoginForm extends StatelessWidget {
         // No authorization header
         print('Showing ERR_502 error dialog: Authentication Required');
         AuthStorage.clearAll(); // Clear stored tokens
-        LulLoaders.lulerrorDialog(
+        AfrinovaLoaders.AfrinovaerrorDialog(
           title: 'Authentication Required',
           message: 'You need to log in to access this feature.',
           onPressed: () {
@@ -116,7 +116,7 @@ class LoginForm extends StatelessWidget {
       case 'ERR_CONNECTION':
         // Connection error
         print('Showing ERR_CONNECTION error dialog: Connection Error');
-        LulLoaders.lulerrorDialog(
+        AfrinovaLoaders.AfrinovaerrorDialog(
           title: 'Connection Error',
           message: errorMessage,
         );
@@ -125,7 +125,7 @@ class LoginForm extends StatelessWidget {
       default:
         // Unknown error
         print('Showing default error dialog: Error - $errorCode');
-        LulLoaders.lulerrorDialog(
+        AfrinovaLoaders.AfrinovaerrorDialog(
           title: 'Error',
           message: errorMessage,
         );
@@ -139,7 +139,7 @@ class LoginForm extends StatelessWidget {
     // Validate form fields before submission
     if (_emailController.text.trim().isEmpty ||
         _passwordController.text.isEmpty) {
-      LulLoaders.lulerrorDialog(
+      AfrinovaLoaders.AfrinovaerrorDialog(
         title: 'Form Error',
         message: 'Email and password are required. Please fill in all fields.',
       );
@@ -179,7 +179,7 @@ class LoginForm extends StatelessWidget {
       }
     } catch (e) {
       print('Login error: ${e.toString()}');
-      LulLoaders.lulerrorDialog(
+      AfrinovaLoaders.AfrinovaerrorDialog(
         title: 'Error',
         message: 'An unexpected error occurred. Please try again later.',
       );

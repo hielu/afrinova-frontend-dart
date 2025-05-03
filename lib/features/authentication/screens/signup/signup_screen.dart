@@ -12,16 +12,16 @@ import 'package:afrinova/utils/formatters/phone_number_formatter.dart';
 import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:afrinova/utils/popups/loaders.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_date_field.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_dropdown_style.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_textformfield.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_date_field.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_dropdown_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_textformfield.dart';
 import 'package:afrinova/utils/tokens/auth_storage.dart';
 import 'package:afrinova/utils/validators/validation.dart';
 import 'package:afrinova/utils/http/http_client.dart';
 import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'package:afrinova/utils/constants/refered_by.dart';
 import 'package:afrinova/features/authentication/screens/signup/widgets/terms_conditions.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_button_style.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_button_style.dart';
 import 'package:intl/intl.dart';
 
 class SignUpScreen2 extends StatelessWidget {
@@ -136,7 +136,7 @@ class SignUpScreen2 extends StatelessWidget {
                     // Personal Information Group
                     _buildLabel(context, 'firstname'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    LulGeneralTextFormField(
+                    AfrinovaGeneralTextFormField(
                       controller: _firstNameController,
                       hintText: _languageController.getText('firstname_hint'),
                       hintStyle: FormTextStyle.getHintStyle(context),
@@ -151,7 +151,7 @@ class SignUpScreen2 extends StatelessWidget {
 
                     _buildLabel(context, 'lastname'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    LulGeneralTextFormField(
+                    AfrinovaGeneralTextFormField(
                       controller: _lastNameController,
                       hintText: _languageController.getText('lastname_hint'),
                       hintStyle: FormTextStyle.getHintStyle(context),
@@ -168,7 +168,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Container(
                       key: _usernameKey,
-                      child: LulGeneralTextFormField(
+                      child: AfrinovaGeneralTextFormField(
                         controller: _usernameController,
                         focusNode: _usernameFocusNode,
                         hintText: _languageController.getText('username_hint'),
@@ -186,7 +186,7 @@ class SignUpScreen2 extends StatelessWidget {
                     // Gender Dropdown
                     _buildLabel(context, 'gender'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    Obx(() => LulDropdown<String>(
+                    Obx(() => AfrinovaDropdown<String>(
                           value: selectedGender.value.isNotEmpty
                               ? selectedGender.value
                               : null,
@@ -220,7 +220,7 @@ class SignUpScreen2 extends StatelessWidget {
                     // Date of Birth
                     _buildLabel(context, 'dateofbirth'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    LulDateField(
+                    AfrinovaDateField(
                       controller: _dateOfBirthController,
                       hintText: _languageController.getText('dateofbirth_hint'),
                       hintStyle: FormTextStyle.getHintStyle(context),
@@ -242,7 +242,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Obx(() => SizedBox(
                           width: double.infinity,
-                          child: LulDropdown<String>(
+                          child: AfrinovaDropdown<String>(
                             value: selectedCountry.value.isNotEmpty
                                 ? selectedCountry.value
                                 : null,
@@ -283,7 +283,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Obx(() => SizedBox(
                           width: double.infinity,
-                          child: LulDropdown<String>(
+                          child: AfrinovaDropdown<String>(
                             value: selectedState.value.isNotEmpty
                                 ? selectedState.value
                                 : null,
@@ -324,7 +324,7 @@ class SignUpScreen2 extends StatelessWidget {
 
                     _buildLabel(context, 'city'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    Obx(() => LulDropdown<String>(
+                    Obx(() => AfrinovaDropdown<String>(
                           value: selectedCity.value.isNotEmpty
                               ? selectedCity.value
                               : null,
@@ -366,7 +366,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Container(
                       key: _emailKey,
-                      child: LulGeneralTextFormField(
+                      child: AfrinovaGeneralTextFormField(
                         controller: _emailController,
                         focusNode: _emailFocusNode,
                         hintText: _languageController.getText('email_hint'),
@@ -382,7 +382,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Container(
                       key: _phoneKey,
-                      child: LulPhoneTextFormField(
+                      child: AfrinovaPhoneTextFormField(
                         languageController: _languageController,
                         hintText: _languageController.getText('phone_hint'),
                         hintStyle: FormTextStyle.getHintStyle(context),
@@ -396,7 +396,7 @@ class SignUpScreen2 extends StatelessWidget {
 
                     _buildLabel(context, 'whatsapp_phone'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    LulPhoneTextFormField(
+                    AfrinovaPhoneTextFormField(
                       languageController: _languageController,
                       hintText:
                           _languageController.getText('whatsapp_phone_hint'),
@@ -410,7 +410,7 @@ class SignUpScreen2 extends StatelessWidget {
                     // Security Group
                     _buildLabel(context, 'password'),
                     const SizedBox(height: TSizes.spaceBtwInputFields),
-                    Obx(() => LulGeneralTextFormField(
+                    Obx(() => AfrinovaGeneralTextFormField(
                           controller: _passwordController,
                           obscureText: !isPasswordVisible.value,
                           hintText:
@@ -434,7 +434,7 @@ class SignUpScreen2 extends StatelessWidget {
                     const SizedBox(height: TSizes.spaceBtwInputFields),
                     Obx(() => SizedBox(
                           width: double.infinity,
-                          child: LulDropdown<String>(
+                          child: AfrinovaDropdown<String>(
                             value: selectedReferralSource.value.isNotEmpty
                                 ? selectedReferralSource.value
                                 : null,
@@ -492,8 +492,8 @@ class SignUpScreen2 extends StatelessWidget {
 
                     const SizedBox(height: TSizes.spaceBtwSections),
 
-                    // Submit Button using LulButton
-                    Obx(() => LulButton(
+                    // Submit Button using AfrinovaButton
+                    Obx(() => AfrinovaButton(
                           onPressed: acceptedTerms.value
                               ? () => _handleSignUp(context)
                               : null,
@@ -539,7 +539,7 @@ class SignUpScreen2 extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Get.to(() => const LulOtpVerifyScreen(
+                        Get.to(() => const AfrinovaOtpVerifyScreen(
                               phoneNumber: "+256703241464",
                             ));
                       },
@@ -598,7 +598,7 @@ class SignUpScreen2 extends StatelessWidget {
           final errorCode = response['code'];
           print('SignUp: Error code received: $errorCode');
           _handleError(errorCode, context);
-          Get.find<LulLoaders>().errorDialog(
+          Get.find<AfrinovaLoaders>().errorDialog(
             title: _languageController.getText('error'),
             message: _languageController.getText(errorCode),
           );
@@ -621,11 +621,11 @@ class SignUpScreen2 extends StatelessWidget {
           await AuthStorage.saveToken(token);
           await AuthStorage.saveRegistrationStage(registerStatus);
 
-          Get.find<LulLoaders>().successDialog(
+          Get.find<AfrinovaLoaders>().successDialog(
             title: _languageController.getText('success'),
             message:
                 '${_languageController.getText('registration_success')}\nUser ID: $userId',
-            onPressed: () => Get.to(() => LulOtpVerifyScreen(
+            onPressed: () => Get.to(() => AfrinovaOtpVerifyScreen(
                   phoneNumber: _phoneController.text.trim(),
                 )),
           );
@@ -635,7 +635,7 @@ class SignUpScreen2 extends StatelessWidget {
         }
       } catch (e) {
         print('SignUp: Unexpected error: $e');
-        Get.find<LulLoaders>().errorDialog(
+        Get.find<AfrinovaLoaders>().errorDialog(
           title: _languageController.getText('error'),
           message: _languageController.getText('registration_failed'),
         );

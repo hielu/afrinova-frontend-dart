@@ -66,7 +66,7 @@ class NetworkManager extends GetxController {
         hasServerConnection.value = false;
         _connectivityRestored.value = false;
         connectionMessage.value = 'No internet connection';
-        LulLoaders.lulcustomToast(message: 'No Internet Connection');
+        AfrinovaLoaders.AfrinovacustomToast(message: 'No Internet Connection');
       }
     }
   }
@@ -223,7 +223,7 @@ class NetworkManager extends GetxController {
       'http://10.0.2.2:8080', // For Android emulator
       'http://localhost:8080', // For local testing
       // Add production URL if available
-      // 'https://api.lulpay.com',
+      // 'https://api.Afrinovapay.com',
     ];
 
     // Skip the first URL if it's the same as the current baseUrl
@@ -252,7 +252,7 @@ class NetworkManager extends GetxController {
         print('Successfully connected to alternative server: $alternativeUrl');
 
         // Show a message to the user
-        LulLoaders.lulcustomToast(
+        AfrinovaLoaders.AfrinovacustomToast(
           message: 'Connected to alternative server: $alternativeUrl',
         );
 

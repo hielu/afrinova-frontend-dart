@@ -42,7 +42,7 @@ class LogoExampleScreen extends StatelessWidget {
                   const TesfaLogo(size: 40, showText: false),
                   const SizedBox(width: TSizes.md),
                   Text(
-                    'Lul Pay',
+                    'Afrinova Pay',
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                 ],

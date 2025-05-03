@@ -6,16 +6,16 @@ import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:afrinova/features/wallet/contacts/models/contact_model.dart';
 import 'package:afrinova/features/wallet/contacts/add_contacts.dart';
-import 'package:afrinova/utils/theme/widget_themes/lul_textformfield.dart';
+import 'package:afrinova/utils/theme/widget_themes/Afrinova_textformfield.dart';
 
-class LulContactsScreen extends StatefulWidget {
-  const LulContactsScreen({super.key});
+class AfrinovaContactsScreen extends StatefulWidget {
+  const AfrinovaContactsScreen({super.key});
 
   @override
-  State<LulContactsScreen> createState() => _LulContactsScreenState();
+  State<AfrinovaContactsScreen> createState() => _AfrinovaContactsScreenState();
 }
 
-class _LulContactsScreenState extends State<LulContactsScreen> {
+class _AfrinovaContactsScreenState extends State<AfrinovaContactsScreen> {
   final LanguageController _languageController = Get.find<LanguageController>();
   final TextEditingController _searchController = TextEditingController();
   final FocusNode _searchFocusNode = FocusNode();
@@ -72,7 +72,7 @@ class _LulContactsScreenState extends State<LulContactsScreen> {
                         style: FormTextStyle.getLabelStyle(context),
                       )),
                   const SizedBox(height: 8),
-                  Obx(() => LulGeneralTextFormField(
+                  Obx(() => AfrinovaGeneralTextFormField(
                         controller: _searchController,
                         focusNode: _searchFocusNode,
                         hintText: _languageController.getText('search_by_id'),
@@ -130,7 +130,7 @@ class _LulContactsScreenState extends State<LulContactsScreen> {
         ),
         // Floating Add Button
         floatingActionButton: FloatingActionButton(
-          onPressed: () => Get.to(() => const LulAddContactScreen()),
+          onPressed: () => Get.to(() => const AfrinovaAddContactScreen()),
           backgroundColor: TColors.primary,
           child: const Icon(Icons.add, color: Colors.white, size: 28),
         ),

@@ -24,7 +24,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         otpBorderColor = Colors.red; // Change border color to red
       });
       otpFocusNode.requestFocus();
-      LulLoaders.lulerrorSnackBar(
+      AfrinovaLoaders.AfrinovaerrorSnackBar(
         /// context: context,
         title: _languageController.getText('errorhead'),
         message: _languageController.getText('enteremailmessage'),
@@ -34,7 +34,7 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         otpBorderColor = Colors.grey; // Change border color to default grey
       });
       otpFocusNode.unfocus();
-      LulLoaders.lulsuccessSnackBar(
+      AfrinovaLoaders.AfrinovasuccessSnackBar(
         /// context: context,
         title: _languageController.getText('successhead'),
         message: _languageController.getText('changepasswordemailsend'),

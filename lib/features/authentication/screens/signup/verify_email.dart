@@ -108,7 +108,7 @@ class VerifyEmailScreenState extends State<VerifyEmailScreen> {
               ),
 
               Text(
-                "Support@lulpay.com",
+                "Support@Afrinovapay.com",
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),

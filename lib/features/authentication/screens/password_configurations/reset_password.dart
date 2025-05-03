@@ -27,7 +27,7 @@ class ResetPasswordScreen extends StatelessWidget {
 
     void resendEmail() {
       // Snackbar for OTP resend
-      LulLoaders.lulsuccessSnackBar(
+      AfrinovaLoaders.AfrinovasuccessSnackBar(
         title: _languageController.getText('changepasswordemailsend'),
         message: _languageController.getText('changepasswordemailresend'),
       );
@@ -74,7 +74,7 @@ class ResetPasswordScreen extends StatelessWidget {
               ),
 
               Text(
-                "Support@lulpay.com",
+                "Support@Afrinovapay.com",
                 style: Theme.of(context).textTheme.labelLarge,
                 textAlign: TextAlign.center,
               ),

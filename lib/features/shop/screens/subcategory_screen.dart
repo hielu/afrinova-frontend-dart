@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:afrinova/features/shop/controllers/product_controller.dart';
-import 'package:afrinova/features/shop/models/category_model.dart';
 import 'package:afrinova/features/shop/screens/product_detail_screen.dart';
 import 'package:afrinova/features/shop/widgets/product_card.dart';
 import 'package:afrinova/features/shop/widgets/promo_carousel.dart';

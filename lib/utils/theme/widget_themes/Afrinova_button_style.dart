@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/utils/constants/sizes.dart';
 
-class LulButton extends StatelessWidget {
+class AfrinovaButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
   final double? height;
@@ -19,7 +19,7 @@ class LulButton extends StatelessWidget {
   final Widget? suffixIcon;
   final bool isDisabled;
 
-  const LulButton({
+  const AfrinovaButton({
     super.key,
     required this.onPressed,
     required this.text,
@@ -108,7 +108,7 @@ class LulButton extends StatelessWidget {
   }
 }
 
-class LulOutlineButton extends StatelessWidget {
+class AfrinovaOutlineButton extends StatelessWidget {
   final void Function()? onPressed;
   final String text;
   final double? height;
@@ -121,7 +121,7 @@ class LulOutlineButton extends StatelessWidget {
   final bool isLoading;
   final EdgeInsetsGeometry? padding;
 
-  const LulOutlineButton({
+  const AfrinovaOutlineButton({
     super.key,
     required this.onPressed,
     required this.text,

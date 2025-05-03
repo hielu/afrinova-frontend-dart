@@ -78,7 +78,7 @@ class AuthService {
             response.data['registerStatus'] ?? 4);
 
         // Load currency data after successful login
-        try {
+        /* try {
           if (Get.isRegistered<CurrencyController>()) {
             print('Loading currency data after successful login');
             final currencyController = Get.find<CurrencyController>();
@@ -95,7 +95,7 @@ class AuthService {
           }
         } catch (e) {
           print('Error initiating currency data load: $e');
-        }
+        }*/
 
         return {
           'status': 'success',

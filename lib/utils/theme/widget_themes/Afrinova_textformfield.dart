@@ -7,7 +7,7 @@ import 'package:afrinova/utils/language/language_controller.dart';
 import 'package:get/get.dart';
 
 /// General Text Form Field for standard text input
-class LulGeneralTextFormField extends StatelessWidget {
+class AfrinovaGeneralTextFormField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
@@ -22,7 +22,7 @@ class LulGeneralTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
 
-  const LulGeneralTextFormField({
+  const AfrinovaGeneralTextFormField({
     super.key,
     this.controller,
     this.focusNode,
@@ -92,13 +92,13 @@ class LulGeneralTextFormField extends StatelessWidget {
 }
 
 /// Text Form Field with Prefix Icon
-class LulPrefixIconTextFormField extends StatelessWidget {
+class AfrinovaPrefixIconTextFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Icon prefixIcon;
 
-  const LulPrefixIconTextFormField({
+  const AfrinovaPrefixIconTextFormField({
     super.key,
     required this.hintText,
     required this.prefixIcon,
@@ -144,13 +144,13 @@ class LulPrefixIconTextFormField extends StatelessWidget {
 }
 
 /// Text Form Field with Suffix Icon
-class LulSuffixIconTextFormField extends StatelessWidget {
+class AfrinovaSuffixIconTextFormField extends StatelessWidget {
   final String hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final Icon suffixIcon;
 
-  const LulSuffixIconTextFormField({
+  const AfrinovaSuffixIconTextFormField({
     super.key,
     required this.hintText,
     required this.suffixIcon,
@@ -196,12 +196,12 @@ class LulSuffixIconTextFormField extends StatelessWidget {
 }
 
 /// Password Text Form Field with Visibility Toggle
-class LulPasswordTextFormField extends StatefulWidget {
+class AfrinovaPasswordTextFormField extends StatefulWidget {
   final String hintText;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
 
-  const LulPasswordTextFormField({
+  const AfrinovaPasswordTextFormField({
     super.key,
     required this.hintText,
     this.controller,
@@ -209,11 +209,11 @@ class LulPasswordTextFormField extends StatefulWidget {
   });
 
   @override
-  State<LulPasswordTextFormField> createState() =>
+  State<AfrinovaPasswordTextFormField> createState() =>
       _PasswordTextFormFieldState();
 }
 
-class _PasswordTextFormFieldState extends State<LulPasswordTextFormField> {
+class _PasswordTextFormFieldState extends State<AfrinovaPasswordTextFormField> {
   bool _isObscured = true;
 
   void _toggleVisibility() {
@@ -267,8 +267,8 @@ class _PasswordTextFormFieldState extends State<LulPasswordTextFormField> {
   }
 }
 
-class LulPhoneTextFormField extends StatefulWidget {
-  const LulPhoneTextFormField({
+class AfrinovaPhoneTextFormField extends StatefulWidget {
+  const AfrinovaPhoneTextFormField({
     super.key,
     required this.phoneController,
     required this.languageController,
@@ -290,10 +290,12 @@ class LulPhoneTextFormField extends StatefulWidget {
   final FocusNode? focusNode;
 
   @override
-  State<LulPhoneTextFormField> createState() => _LulPhoneTextFormFieldState();
+  State<AfrinovaPhoneTextFormField> createState() =>
+      _AfrinovaPhoneTextFormFieldState();
 }
 
-class _LulPhoneTextFormFieldState extends State<LulPhoneTextFormField> {
+class _AfrinovaPhoneTextFormFieldState
+    extends State<AfrinovaPhoneTextFormField> {
   final RxString _currentFlag = '🌐'.obs;
   final Rx<IsoCode> _currentRegionCode = IsoCode.US.obs;
 
