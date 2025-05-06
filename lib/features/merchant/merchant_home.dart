@@ -5,6 +5,7 @@ import 'widgets/snapshot_tile.dart';
 import 'widgets/quick_action_button.dart';
 import 'product_list.dart';
 import 'product_form.dart';
+import 'order_list_screen.dart';
 
 class MerchantHomeScreen extends StatefulWidget {
   final String shopName;
@@ -149,9 +150,9 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
           // Top decorative container that extends from app bar
           Container(
             height: 30,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: TColors.primary,
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
@@ -188,7 +189,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                             size: 18,
                           ),
                           const SizedBox(width: 8),
-                          Text(
+                          const Text(
                             'Today\'s Statistics',
                             style: TextStyle(
                               color: TColors.primary,
@@ -305,11 +306,10 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                             iconColor: TColors.textWhite,
                             backgroundColor: Colors.white.withOpacity(0.15),
                             onTap: () {
-                              // Show a snackbar for now since we haven't created the orders screen
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Orders feature coming soon'),
-                                  duration: Duration(seconds: 2),
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => const OrderListScreen(),
                                 ),
                               );
                             },
@@ -393,7 +393,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                           children: [
                             Text(
                               '#${order['id']}',
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: TColors.primary,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -403,7 +403,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                         ),
                         subtitle: Text(
                           '${order['customer']} • UGX ${(order['amount'] / 1000).toStringAsFixed(0)}K',
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: TColors.textSecondary,
                           ),
                         ),
@@ -413,7 +413,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                           children: [
                             Text(
                               _getTimeAgo(order['time']),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: TColors.textSecondary,
                                 fontSize: 12,
                               ),
@@ -427,10 +427,11 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                           ],
                         ),
                         onTap: () {
-                          Navigator.pushNamed(
+                          Navigator.push(
                             context,
-                            '/merchant/orders/detail',
-                            arguments: {'orderId': order['id']},
+                            MaterialPageRoute(
+                              builder: (_) => const OrderListScreen(),
+                            ),
                           );
                         },
                       );
@@ -473,9 +474,9 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                               child: Container(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 8, vertical: 4),
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
                                   color: TColors.secondary,
-                                  borderRadius: const BorderRadius.only(
+                                  borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(16),
                                     bottomLeft: Radius.circular(16),
                                   ),
@@ -511,7 +512,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                                 const SizedBox(height: 8),
                                 Text(
                                   product['name'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.bold,
                                     color: TColors.primary,
                                   ),
@@ -526,7 +527,7 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
                                   ),
                                   child: Text(
                                     '${product['sold']} sold',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: TColors.primary,
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
@@ -551,19 +552,60 @@ class _MerchantHomeScreenState extends State<MerchantHomeScreen> {
 
   Widget _buildSectionHeader(String title, IconData icon) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Icon(
-          icon,
-          size: 20,
-          color: TColors.primary,
+        Row(
+          children: [
+            Icon(
+              icon,
+              size: 20,
+              color: TColors.primary,
+            ),
+            const SizedBox(width: 8),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: TColors.primary,
+              ),
+            ),
+          ],
         ),
-        const SizedBox(width: 8),
-        Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: TColors.primary,
+        InkWell(
+          onTap: () {
+            if (title == 'Recent Orders') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const OrderListScreen(),
+                ),
+              );
+            } else if (title == 'Top Selling Products') {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const ProductListScreen(),
+                ),
+              );
+            }
+          },
+          child: Row(
+            children: [
+              Text(
+                'View All',
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: TColors.primary.withOpacity(0.7),
+                ),
+              ),
+              Icon(
+                Icons.arrow_forward_ios,
+                size: 12,
+                color: TColors.primary.withOpacity(0.7),
+              ),
+            ],
           ),
         ),
       ],

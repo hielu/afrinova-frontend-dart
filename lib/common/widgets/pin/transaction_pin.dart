@@ -10,7 +10,6 @@ import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/utils/helpers/helper_functions.dart';
 import 'package:afrinova/features/authentication/screens/login/login.dart';
 import 'package:afrinova/common/widgets/pin/create_new_pin.dart';
-import 'package:afrinova/features/wallet/settings/currency_setting/widget/currency_controller.dart';
 
 class TransactionPinCheckScreen extends StatefulWidget {
   final Function(String pin) onPinVerified;

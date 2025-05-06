@@ -20,7 +20,7 @@ class ImageFile {
 class ProductFormScreen extends StatefulWidget {
   final Product? product;
 
-  const ProductFormScreen({Key? key, this.product}) : super(key: key);
+  const ProductFormScreen({super.key, this.product});
 
   @override
   State<ProductFormScreen> createState() => _ProductFormScreenState();
@@ -49,9 +49,25 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   ];
   String? _selectedCategory;
 
+  // Active status
+  bool _isActive = true;
+
   // Image handling
   ImageFile? _pickedImage;
   final image_picker.ImagePicker _picker = image_picker.ImagePicker();
+
+  // Variant handling
+  bool _hasVariants = false; // Toggle for variant support
+  List<ProductVariant> _variants = [];
+  final _variantNameController = TextEditingController();
+  final _variantStockController = TextEditingController();
+  bool _variantSectionExpanded = false;
+
+  // Attributes
+  List<MapEntry<String, String>> _attributes = [];
+  final _attributeKeyController = TextEditingController();
+  final _attributeValueController = TextEditingController();
+  bool _attributeSectionExpanded = false;
 
   // Flags
   bool _isLoading = false;
@@ -63,16 +79,27 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     if (widget.product != null) {
       _nameController.text = widget.product!.name;
       _stockController.text = widget.product!.stock.toString();
-
-      // If we had price and description fields in the Product model
-      // _priceController.text = widget.product!.price.toString();
-      // _descriptionController.text = widget.product!.description;
+      _priceController.text = widget.product!.price.toString();
+      _descriptionController.text = widget.product!.description;
+      _isActive = widget.product!.isActive;
 
       // Set category if it exists in our list
-      final productCategory = _categories.contains(_selectedCategory)
-          ? _selectedCategory
-          : _categories.last; // Default to "Other"
-      _selectedCategory = productCategory;
+      _selectedCategory = widget.product!.category ?? _categories.last;
+
+      // Set variants if available
+      if (widget.product!.variants != null &&
+          widget.product!.variants!.isNotEmpty) {
+        _hasVariants = true;
+        _variants = List.from(widget.product!.variants!);
+        _variantSectionExpanded = true;
+      }
+
+      // Set attributes if available
+      if (widget.product!.attributes != null &&
+          widget.product!.attributes!.isNotEmpty) {
+        _attributes = widget.product!.attributes!.entries.toList();
+        _attributeSectionExpanded = true;
+      }
     }
   }
 
@@ -82,6 +109,10 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     _priceController.dispose();
     _stockController.dispose();
     _descriptionController.dispose();
+    _variantNameController.dispose();
+    _variantStockController.dispose();
+    _attributeKeyController.dispose();
+    _attributeValueController.dispose();
     super.dispose();
   }
 
@@ -232,71 +263,175 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     }
   }
 
-  // Save the product
-  Future<void> _saveProduct() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
+  void _addVariant() {
+    final name = _variantNameController.text.trim();
+    final stockText = _variantStockController.text.trim();
 
-      try {
-        // For demo: simulate network lag
-        await Future.delayed(const Duration(milliseconds: 800));
+    if (name.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Variant name cannot be empty'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
-        // Create a new product or update existing one
-        final product = Product(
-          id: widget.product?.id ?? const Uuid().v4(),
-          name: _nameController.text.trim(),
-          stock: int.parse(_stockController.text.trim()),
-          imageUrl: _pickedImage?.path ?? 'https://example.com/placeholder.jpg',
-          // Additional fields if supported by the Product model
-          // price: double.parse(_priceController.text.trim()),
-          // category: _selectedCategory!,
-          // description: _descriptionController.text.trim(),
+    if (stockText.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Variant stock cannot be empty'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    final stock = int.tryParse(stockText);
+    if (stock == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Variant stock must be a number'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _variants.add(
+        ProductVariant(
+          id: const Uuid().v4(),
+          name: name,
+          stock: stock,
+        ),
+      );
+      _variantNameController.clear();
+      _variantStockController.clear();
+    });
+  }
+
+  void _removeVariant(String id) {
+    setState(() {
+      _variants.removeWhere((variant) => variant.id == id);
+    });
+  }
+
+  void _addAttribute() {
+    final key = _attributeKeyController.text.trim();
+    final value = _attributeValueController.text.trim();
+
+    if (key.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Attribute name cannot be empty'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() {
+      _attributes.add(MapEntry(key, value));
+      _attributeKeyController.clear();
+      _attributeValueController.clear();
+    });
+  }
+
+  void _removeAttribute(int index) {
+    setState(() {
+      _attributes.removeAt(index);
+    });
+  }
+
+  void _updateAttribute(int index, String key, String value) {
+    setState(() {
+      _attributes[index] = MapEntry(key, value);
+    });
+  }
+
+  // Handle form submission
+  Future<void> _submitForm() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final name = _nameController.text.trim();
+      final stockText = _stockController.text.trim();
+      final priceText = _priceController.text.trim();
+      final description = _descriptionController.text.trim();
+
+      final stock = int.tryParse(stockText) ?? 0;
+      final price = double.tryParse(priceText) ?? 0.0;
+
+      // This would be handled by a proper API in a real app
+      // Using mocked image URL for now
+      final imageUrl = _pickedImage?.path ??
+          widget.product?.imageUrl ??
+          'https://example.com/placeholder.jpg';
+
+      // Only include variants if the feature is enabled and there are variants
+      List<ProductVariant>? productVariants;
+      if (_hasVariants && _variants.isNotEmpty) {
+        productVariants = _variants;
+      }
+
+      // Only include attributes if there are any
+      Map<String, String>? productAttributes;
+      if (_attributes.isNotEmpty) {
+        productAttributes = Map.fromEntries(_attributes);
+      }
+
+      final product = Product(
+        id: widget.product?.id ?? const Uuid().v4(),
+        name: name,
+        imageUrl: imageUrl,
+        stock: stock,
+        price: price,
+        description: description,
+        category: _selectedCategory,
+        isActive: _isActive,
+        viewCount: widget.product?.viewCount ?? 0,
+        soldCount: widget.product?.soldCount ?? 0,
+        variants: productVariants,
+        attributes: productAttributes,
+      );
+
+      if (widget.product != null) {
+        await mockService.updateProduct(product);
+      } else {
+        await mockService.addProduct(product);
+      }
+
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content:
+                Text('${widget.product != null ? 'Updated' : 'Added'}: $name'),
+            backgroundColor: Colors.green,
+          ),
         );
-
-        // Save product using mock service
-        if (widget.product == null) {
-          await mockService.addProduct(product);
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Product added successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
-        } else {
-          await mockService.updateProduct(product);
-          if (mounted) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Product updated successfully'),
-                backgroundColor: Colors.green,
-              ),
-            );
-          }
-        }
-
-        // Close the form screen
-        if (mounted) {
-          Navigator.pop(context);
-        }
-      } catch (e) {
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('Error saving product: $e'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-      } finally {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-        }
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
       }
     }
   }
@@ -374,9 +509,9 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
           // Top decorative container that extends from app bar
           Container(
             height: 20,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: TColors.primary,
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(30),
                 bottomRight: Radius.circular(30),
               ),
@@ -544,11 +679,53 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
                     ),
                     const SizedBox(height: 24),
 
+                    // Variants toggle
+                    Card(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: SwitchListTile(
+                        title: const Text(
+                          'This product has variants',
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: const Text(
+                          'e.g., sizes, colors, styles',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        value: _hasVariants,
+                        onChanged: (value) {
+                          setState(() {
+                            _hasVariants = value;
+                            if (value) {
+                              _variantSectionExpanded = true;
+                            }
+                          });
+                        },
+                        secondary: Icon(
+                          Icons.style,
+                          color: _hasVariants ? TColors.primary : Colors.grey,
+                        ),
+                        activeColor: TColors.primary,
+                      ),
+                    ),
+
+                    // Variants section (only show if _hasVariants is true)
+                    if (_hasVariants) _buildVariantsSection(),
+
+                    // Attributes section
+                    _buildAttributesSection(),
+
+                    // Active toggle
+                    _buildActiveToggleSection(),
+
                     // Save button
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: _isLoading ? null : _saveProduct,
+                        onPressed: _isLoading ? null : _submitForm,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: TColors.primary,
                           foregroundColor: Colors.white,
@@ -582,6 +759,442 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // Add this section for variants
+  Widget _buildVariantsSection() {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _variantSectionExpanded = !_variantSectionExpanded;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.style,
+                        color: TColors.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Product Variants',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      if (_variants.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: TColors.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${_variants.length}',
+                            style: const TextStyle(
+                              color: TColors.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  Icon(
+                    _variantSectionExpanded
+                        ? Icons.expand_less
+                        : Icons.expand_more,
+                    color: TColors.primary,
+                  ),
+                ],
+              ),
+            ),
+            if (_variantSectionExpanded) ...[
+              const SizedBox(height: 16),
+              const Text(
+                'Add variants for this product (e.g., size, color, style)',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      controller: _variantNameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Variant Name',
+                        hintText: 'e.g., Small, Red, 256GB',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _variantStockController,
+                      decoration: const InputDecoration(
+                        labelText: 'Stock',
+                        hintText: 'e.g., 10',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.number,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _addVariant,
+                    icon: const Icon(Icons.add_circle),
+                    color: TColors.primary,
+                    tooltip: 'Add Variant',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              if (_variants.isEmpty)
+                Center(
+                  child: Text(
+                    'No variants added yet',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                )
+              else
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _variants.length,
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final variant = _variants[index];
+                    return ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        variant.name,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: Text('Stock: ${variant.stock}'),
+                      trailing: IconButton(
+                        icon:
+                            const Icon(Icons.delete_outline, color: Colors.red),
+                        onPressed: () => _removeVariant(variant.id),
+                        tooltip: 'Remove Variant',
+                      ),
+                    );
+                  },
+                ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  // Add this section for attributes
+  Widget _buildAttributesSection() {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            InkWell(
+              onTap: () {
+                setState(() {
+                  _attributeSectionExpanded = !_attributeSectionExpanded;
+                });
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.format_list_bulleted,
+                        color: TColors.primary,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 8),
+                      const Text(
+                        'Additional Attributes',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      if (_attributes.isNotEmpty)
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 2),
+                          decoration: BoxDecoration(
+                            color: TColors.primary.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Text(
+                            '${_attributes.length}',
+                            style: const TextStyle(
+                              color: TColors.primary,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                  Icon(
+                    _attributeSectionExpanded
+                        ? Icons.expand_less
+                        : Icons.expand_more,
+                    color: TColors.primary,
+                  ),
+                ],
+              ),
+            ),
+            if (_attributeSectionExpanded) ...[
+              const SizedBox(height: 16),
+              const Text(
+                'Add additional attributes for this product (e.g., material, brand, weight)',
+                style: TextStyle(fontSize: 14),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: TextFormField(
+                      controller: _attributeKeyController,
+                      decoration: const InputDecoration(
+                        labelText: 'Attribute Name',
+                        hintText: 'e.g., Material, Brand',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    flex: 3,
+                    child: TextFormField(
+                      controller: _attributeValueController,
+                      decoration: const InputDecoration(
+                        labelText: 'Value',
+                        hintText: 'e.g., Cotton, Nike',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  IconButton(
+                    onPressed: _addAttribute,
+                    icon: const Icon(Icons.add_circle),
+                    color: TColors.primary,
+                    tooltip: 'Add Attribute',
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
+              if (_attributes.isEmpty)
+                Center(
+                  child: Text(
+                    'No attributes added yet',
+                    style: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                )
+              else
+                ListView.separated(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _attributes.length,
+                  separatorBuilder: (context, index) =>
+                      const Divider(height: 1),
+                  itemBuilder: (context, index) {
+                    final attribute = _attributes[index];
+                    return ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      title: Text(
+                        attribute.key,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
+                      ),
+                      subtitle: Text(attribute.value),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon:
+                                const Icon(Icons.edit, color: TColors.primary),
+                            onPressed: () {
+                              _editAttribute(index, attribute);
+                            },
+                            tooltip: 'Edit Attribute',
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete_outline,
+                                color: Colors.red),
+                            onPressed: () => _removeAttribute(index),
+                            tooltip: 'Remove Attribute',
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _editAttribute(int index, MapEntry<String, String> attribute) {
+    _attributeKeyController.text = attribute.key;
+    _attributeValueController.text = attribute.value;
+
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit Attribute'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _attributeKeyController,
+              decoration: const InputDecoration(
+                labelText: 'Attribute Name',
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: _attributeValueController,
+              decoration: const InputDecoration(
+                labelText: 'Value',
+                border: OutlineInputBorder(),
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              _attributeKeyController.clear();
+              _attributeValueController.clear();
+            },
+            child: const Text('CANCEL'),
+          ),
+          TextButton(
+            onPressed: () {
+              final key = _attributeKeyController.text.trim();
+              final value = _attributeValueController.text.trim();
+
+              if (key.isNotEmpty) {
+                setState(() {
+                  _updateAttribute(index, key, value);
+                });
+                Navigator.pop(context);
+                _attributeKeyController.clear();
+                _attributeValueController.clear();
+              } else {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(
+                    content: Text('Attribute name cannot be empty'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
+            },
+            child: const Text('SAVE'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Add this section for active toggle
+  Widget _buildActiveToggleSection() {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 16),
+      elevation: 2,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          children: [
+            Icon(
+              _isActive ? Icons.visibility : Icons.visibility_off,
+              color: _isActive ? TColors.primary : Colors.grey,
+              size: 20,
+            ),
+            const SizedBox(width: 8),
+            const Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Product Visibility',
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  SizedBox(height: 4),
+                  Text(
+                    'Inactive products will be hidden from customers',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            Switch(
+              value: _isActive,
+              onChanged: (value) {
+                setState(() {
+                  _isActive = value;
+                });
+              },
+              activeColor: TColors.primary,
+            ),
+          ],
+        ),
       ),
     );
   }

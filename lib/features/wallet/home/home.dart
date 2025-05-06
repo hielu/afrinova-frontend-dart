@@ -1,3 +1,4 @@
+import 'package:afrinova/features/merchant/merchant_main_nav_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -16,7 +17,6 @@ import 'package:afrinova/features/wallet/home/widgets/category_item.dart';
 import 'package:afrinova/features/wallet/home/widgets/custom_search_bar.dart';
 import 'package:afrinova/features/wallet/home/widgets/transparent_app_bar.dart';
 import 'package:afrinova/features/shop/widgets/filter_bottom_sheet.dart';
-import 'package:afrinova/features/merchant/merchant_home.dart';
 import 'package:afrinova/utils/constants/colors.dart';
 import 'package:afrinova/utils/language/language_controller.dart';
 
@@ -83,7 +83,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   }
 
   void _navigateToMerchantDashboard() {
-    Get.to(() => const MerchantHomeScreen(shopName: 'My Shop'));
+    Get.to(() => const MerchantMainNavScreen(shopName: 'My Shop'));
   }
 
   @override
@@ -472,10 +472,10 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                               ),
                             ),
                             const SizedBox(width: 16),
-                            Expanded(
+                            const Expanded(
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
+                                children: [
                                   Text(
                                     'Become a Merchant',
                                     style: TextStyle(

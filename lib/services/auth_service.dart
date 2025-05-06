@@ -1,9 +1,7 @@
 import 'package:afrinova/utils/http/http_client.dart';
 import 'package:afrinova/utils/tokens/auth_storage.dart';
 import 'package:afrinova/utils/device/device_info_helper.dart';
-import 'package:get/get.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:afrinova/features/wallet/settings/currency_setting/widget/currency_controller.dart';
 import 'package:dio/dio.dart';
 
 class AuthService {
